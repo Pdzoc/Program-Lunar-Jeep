@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Lunar Jeep</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Program Lunar Jeep</h1>
+        <img src="./probe-gee7a49e14_640.png" alt="">
+        <div id="info">
+            <div class="baner"></div>
+            <p>The automatic pilot in our lunar jeep doesn't work! We need you to program the vehicle (marked blue)
+                remotely and lead it to the base (marked green). Watch out for the rocks (marked grey). You have to plan
+                the whole route before you launch the jeep.</p>
+            <ul>
+                <li>U - up</li>
+                <li>D - down</li>
+                <li>L - left</li>
+                <li>R - right</li>
+                <li>Back - remove last command</li>
+                <li>Start - launch lunar jeep</li>
+            </ul>
+        </div>
+        <button class="startBtn" onclick="startGame()">Play</button>
+        <button class="startBtn" onclick="window.open('./levelCreator.html','_blank')">Level Creator</button>
+    </main>
+    <canvas></canvas>
+    <article>
+        <div id="lamp" style="background: darkred;"></div>
+        <p id="mission-counter"></p>
+    </article>
+    <div>
+        <button onclick="move(0,-1)">U</button>
+        <button onclick="move(0,1)">D</button>
+        <button onclick="move(-1,0)">L</button>
+        <button onclick="move(1,0)">R</button>
+        <button onclick="back()">BACK</button>
+        <button onclick="start()">START</button>
+    </div>
+    <section>Actions: </section>
+    <script src="levels.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

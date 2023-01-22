@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Creator</title>
+    <style>
+        body {
+            background: #333;
+            text-align: center;
+        }
+
+        canvas {
+            border: 3px inset white;
+            border-radius: 5px;
+            background-image: repeating-linear-gradient(#111, #222 0.4%);
+        }
+
+        #code {
+            margin: auto;
+            margin-top: 10px;
+            max-width: 400px;
+            text-align: left;
+            font-size: large;
+            padding-left: 5px;
+            background-image: repeating-linear-gradient(#222, #111 0.5%);
+            border: 3px inset white;
+            border-radius: 5px;
+            color: limegreen;
+        }
+
+        #controls {
+            text-align: left;
+            width: 80%;
+            max-width: 400px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="400" height='400'></canvas>
+    <div id="controls">
+        <select name="" id="field">
+            <option value="player">Player</option>
+            <option value="base">Base</option>
+            <option value="rock">Rock</option>
+        </select>
+    </div>
+    <div id="code">
+        <details>
+            <summary>Info</summary>
+            <p>When you create a board, copy the green code and paste it to the levels.js file.</p>
+        </details>
+        <pre></pre>
+    </div>
+    
+    <script>
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let boardSize = window.innerWidth > 400 ? 400 : 300;
+        let elSize = boardSize / 10;
+        canvas.setAttribute('width', `${boardSize}`);
+        canvas.setAttribute('height', `${boardSize}`);
+
+        let select = document.querySelector('select');
+        let pre = document.querySelector('pre');
+
+        let playerOnBoard = false;
+        let baseOnBoard = false;
+
+        let board = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+
+        function drawNest() {
+            ctx.strokeStyle = '#ffd262';
+            for (let i = 0; i <= boardSize; i += elSize) {
+                ctx.moveTo(0, i);
+                ctx.lineTo(boardSize, i);
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, boardSize);
+            }
+            ctx.stroke();
+        }
+
+        function drawRect(x, y, type) {
+            if (type == 'player' && playerOnBoard && board[y][x] == 2) {
+                ctx.clearRect(x * elSize + 1, y * elSize + 1, elSize - 2, elSize - 2);
+                board[y][x] = 0; playerOnBoard = false;
+                prepareArray();
+                return;
+            }
+            if (type == 'player' && playerOnBoard && board[y][x] != 2) {
+                return;
+            }
+            if (type == 'base' && baseOnBoard && board[y][x] == 3) {
+                ctx.clearRect(x * elSize + 1, y * elSize + 1, elSize - 2, elSize - 2);
+                board[y][x] = 0;
+                baseOnBoard = false;
+                prepareArray()
+                return;
+            }
+            if (type == 'base' && baseOnBoard && board[y][x] != 3) {
+                return;
+            }
+            if (type == 'player' && board[y][x] == 0) {
+                ctx.fillStyle = 'green';
+                board[y][x] = 2;
+                playerOnBoard = true;
+                ctx.fillRect(x * elSize + 1, y * elSize + 1, elSize - 2, elSize - 2);
+            }
+            if (type == 'base' && board[y][x] == 0 && !baseOnBoard) {
+                ctx.fillStyle = 'blue';
+                board[y][x] = 3;
+                baseOnBoard = true;
+                ctx.fillRect(x * elSize + 1, y * elSize + 1, elSize - 2, elSize - 2);
+            }
+            if (type == 'rock' && board[y][x] == 0) {
+                ctx.fillStyle = 'gray';
+                board[y][x] = 1;
+                ctx.fillRect(x * elSize + 1, y * elSize + 1, elSize - 2, elSize - 2);
+                prepareArray();
+                return;
+            }
+            if (type == 'rock' && board[y][x] == 1) {
+                ctx.clearRect(x * elSize + 1, y * elSize + 1, elSize - 2, elSize - 2);
+                board[y][x] = 0;
+                prepareArray();
+                return;
+            }
+
+            prepareArray();
+        }
+
+        function prepareArray() {
+            let txt = JSON.stringify(board)
+            txt = txt.replace('[', '[\n');
+            txt = txt.replace(/]$/, '\n]');
+            txt = txt.replaceAll('],', '],\n');
+            pre.innerText = txt;
+        }
+
+        function getMousePosition(canvas, event) {
+            let rect = canvas.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+            drawRect(Math.ceil(x / 40) - 1, Math.ceil(y / 40) - 1, select.value);
+        }
+
+        canvas.addEventListener("mousedown", function (e) {
+            getMousePosition(canvas, e);
+        });
+
+        drawNest();
+    </script>
+</body>
+
+</html>

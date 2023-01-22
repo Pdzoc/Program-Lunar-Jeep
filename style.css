@@ -1,0 +1,117 @@
+body {
+    background: #444;
+    color: #ddd;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 300px;
+    margin-bottom: 10px;
+}
+
+canvas {
+    border: 3px inset white;
+    border-radius: 5px;
+    background-image: repeating-linear-gradient(#111, #222 0.4%);
+    margin-top: 5px;
+}
+
+section {
+    width: 400px;
+    margin: auto;
+    padding: 3px;
+    text-align: left;
+    background-image: repeating-linear-gradient(#222, #111 0.5%);
+    border: 3px inset white;
+    border-radius: 5px;
+    margin-top: 5px;
+    color: lime;
+    font-family: consolas;
+    font-size: 18px;
+}
+
+button {
+    min-width: 2em;
+    background: #222;
+    color: goldenrod;
+    border: 2px outset goldenrod;
+    font-size: large;
+}
+
+button:hover {
+    cursor: pointer;
+    color: #ffc125;
+    border-color: #ffc125;
+}
+
+button:disabled {
+    background: #111;
+    color: #966b00;
+    border-color: #966b00;
+    cursor: default;
+}
+
+article {
+    width: 400px;
+    font-family: consolas;
+    font-size: 18px;
+    color: lime;
+    margin: -5px;
+    margin: auto;
+}
+
+#lamp {
+    width: 25px;
+    height: 25px;
+    border: 3px inset white;
+    border-radius: 50%;
+    position: absolute;
+    margin-top: -5px;
+}
+
+main {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background: #444;
+    z-index: 99;
+    font-family: consolas
+}
+
+#info {
+    width: 60%;
+    margin: auto;
+    text-align: left;
+    border: 3px inset white;
+    border-radius: 5px;
+    background-image: repeating-linear-gradient(#111, #222 0.4%);
+    padding: 0px 7px;
+    margin-bottom: 10px;
+    color: lime;
+    font-size: large;
+}
+
+.startBtn {
+    font-size: x-large;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+@media screen and (max-width:400px) {
+    section {
+        width: 300px;
+    }
+    article {
+        width: 300px;
+    }
+    #info {
+        width: 90%;
+    }
+}
