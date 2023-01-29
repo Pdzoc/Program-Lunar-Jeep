@@ -27,3 +27,7 @@ To add new levels create a board in level maker, then copy the whole code e.g.
 In `levels.js` add the higher number at the bottom of list and paste the code.
 
 Graphics comes from pixabay.com
+
+## Contribution
+
+You can practice contributing by adding your level. Create level with creator and and feel free to open pull request!
